@@ -1,11 +1,8 @@
-import { View, TextInput, KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
+import { View, TextInput, KeyboardAvoidingView, StyleSheet } from "react-native";
 
 const SearchBar = () => {
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.keyboardAvoid}
-    >
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
       <View style={styles.container}>
         <TextInput
           style={styles.input}
@@ -17,9 +14,6 @@ const SearchBar = () => {
 };
 
 const styles = StyleSheet.create({
-  keyboardAvoid: {
-    width: '100%',
-  },
   container: {
     padding: 10,
     backgroundColor: "#eee",
