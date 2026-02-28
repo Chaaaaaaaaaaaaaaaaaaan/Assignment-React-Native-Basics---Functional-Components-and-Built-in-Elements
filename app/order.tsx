@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { Alert, Button, FlatList, Modal, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Button, FlatList, Modal, Text, TouchableOpacity, View, KeyboardAvoidingView } from "react-native";
 import SearchBar from "../components/SearchBar";
+import { useState } from "react";
 
 const Orders = () => {
 
@@ -15,72 +15,65 @@ const Orders = () => {
     ];
 
     return ( 
-    <View style = {{ backgroundColor: '#f8545b' }} >
-    <SearchBar />
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+      <View style = {{ flex: 1, padding: 20, backgroundColor: '#f8545b' }} >
+      <SearchBar />
 
-    <TouchableOpacity
-        style={{
-            backgroundColor: 'white',
-            padding: 10,
-            margin: 20,
-            borderRadius: 5,
-            alignItems: 'center'
-        }}
+      <FlatList
+      data={orders}
+      keyExtractor={(item) => item.id}
+          renderItem={({item}) => (
+            <View style={{ padding: 20, borderBottomWidth: 1, borderBlockColor:'fff' }}>
+              <Text style ={{ color: 'white' }}>{item.item}</Text>
+            </View>
+          )}
+      />
+      
+        <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    Alert.alert('Modal has been closed.');
+                    setModalVisible(!modalVisible);
+                }}
+                >
+                  <View style={{
+                      flex: 1,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      backgroundColor: "rgba(0,0,0,0.5)",
+                  }}>
+                      <View style={{
+                      backgroundColor: "white",
+                      padding: 20,
+                      borderRadius: 10,
+                      width: 250,
+                      alignItems: "center",
+                      }}>
 
-    onPress={() => setModalVisible(true)}
-    > 
-        <Text style={{ color: '#f8545b', fontWeight: 'bold' }}>Show Modal</Text>
-    </TouchableOpacity>
+                      <Text style={{ fontSize: 18, marginBottom: 20 }}>This is a modal</Text>
+                
+                      <Button
+                          title="Close Modal" onPress={() => {
+                          Alert.alert("Modal closed");
+                          setModalVisible(false);
+                          }}  
+                          color="#f8545b"
+                      />
+                      </View>
+                  </View>
+              </Modal>
 
-    <FlatList
-    data={orders}
-    keyExtractor={(item) => item.id}
-        renderItem={({item}) => (
-          <View style={{ padding: 20, borderBottomWidth: 1, borderBlockColor:'fff' }}>
-            <Text style ={{ color: 'white' }}>{item.item}</Text>
-          </View>
-        )}
-    />
-    
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-          }}
-        >
-          <View
-            style={{
-              backgroundColor: "white",
-              padding: 20,
-              borderRadius: 10,
-              width: 250,
-            }}
-          >
-            <Text>This is a modal</Text>
-            
-
-            <Button
-              title="Close Modal"
-              onPress={() => {
-                Alert.alert("Modal closed");
-                setModalVisible(false);
-              }}
-            />
-          </View>
-        </View>
-      </Modal>
-    </View>
+              <View style={{ margin: 20 }}>
+                  <Button
+                      title="Show Modal"
+                      onPress={() => setModalVisible(true)}
+                      color="#ff959a"
+                  />
+              </View>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
